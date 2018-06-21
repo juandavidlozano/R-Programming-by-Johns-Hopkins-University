@@ -1,0 +1,28 @@
+---
+title: "Part 2 complete function"
+author: "Juan Lozano"
+date: "June 21, 2018"
+output: html_document
+---
+
+## Part 2 complete function
+
+Write a function that reads a directory full of files and reports the number of completely observed cases in each data file. The function should return a data frame where the first column is the name of the file and the second column is the number of complete cases. A prototype of this function follows
+
+```{r cars}
+complete <- function(directory, id)  {
+  files_list <- list.files(directory, full.names=TRUE)  
+  dat <- data.frame()                            
+  for (i in id) {                                
+   
+    nobs <- sum(complete.cases(read.csv(files_list[i])))
+    tmp <- data.frame(i, nobs)
+    dat <- rbind(dat, tmp)
+    
+  }
+  
+  colnames(dat) <- c("id","nobs")
+  dat
+}
+```
+
