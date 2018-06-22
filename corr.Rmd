@@ -1,0 +1,33 @@
+---
+title: "Part 3 corr function"
+author: "Juan Lozano"
+date: "June 22, 2018"
+output: html_document
+---
+
+
+## Part 3 corr function
+
+
+
+```{r}
+corr <- function(directory, threshold) {
+  files_list <- list.files(directory, full.names=TRUE)  
+  dat <- vector(mode = "numeric", length = 0)
+   for (i in 1:length(files_list)) {                                
+    tmp <- read.csv(files_list[i])
+    csum <- complete("specdata", i)
+    
+    if (csum[2]> threshold){
+    tmp1 <- tmp[which(!is.na(tmp$sulfate)),]
+    tmp3 <- tmp1[which(!is.na(tmp1$nitrate)),]
+    dat<-c(dat,cor(tmp3$sulfate, tmp3$nitrate))
+    }
+   }
+  dat
+  
+  }
+  
+  
+```
+
