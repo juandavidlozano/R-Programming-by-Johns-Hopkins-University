@@ -1,0 +1,34 @@
+---
+title: "Practice Assigment 3 Coding with R"
+author: "Juan Lozano"
+date: "June 27, 2018"
+output: html_document
+---
+
+
+## Week 4 Practice Assigment 
+
+Finding the best hospital in a state
+
+```{r}
+best <-function(state, colname){
+  
+  outcome <-read.csv("Assigment3/outcome-of-care-measures.csv", colClasses = "character")
+  names(outcome)[11]<-"heart attack"
+  names(outcome)[17]<-"heart failure"
+  names(outcome)[23]<-"pneumonia"
+  
+                 if (colname %in% colnames(outcome) ==FALSE){
+                   message("invalid outcome")
+                 } else if (!state %in% outcome$State ==TRUE){
+                   message("invalid state")
+                 } else {
+                   temp <- subset(outcome, State ==state, select=c(Hospital.Name, get(colname)))
+                   temp1 <- suppressWarnings(subset(temp, !is.na(as.numeric(temp[,2]))))
+                   temp2 <- temp1[which.min(temp1[[colname]]),]
+                   temp2[,1]
+                 }
+}
+```
+
+
