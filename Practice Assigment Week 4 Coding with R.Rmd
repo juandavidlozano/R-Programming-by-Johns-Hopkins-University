@@ -30,5 +30,34 @@ best <-function(state, colname){
                  }
 }
 ```
+Ranking hospitals by outcome in a state
 
+```{r}
+rankhospital <-function(state, colname, num = "best"){
+  
+  outcome <-read.csv("Assigment3/outcome-of-care-measures.csv", colClasses = "character")
+  names(outcome)[11]<-"heart attack"
+  names(outcome)[17]<-"heart failure"
+  names(outcome)[23]<-"pneumonia"
+  
+  if (colname %in% colnames(outcome) ==FALSE){
+    stop(message("invalid outcome"))
+  } else if (!state %in% outcome$State ==TRUE){
+    stop(message("invalid state"))
+  } else {
+    temp <- subset(outcome, State ==state, select=c(Hospital.Name, get(colname)))
+    temp1 <- suppressWarnings(subset(temp, !is.na(as.numeric(temp[,2]))))
+    temp2 <- temp1[order(as.numeric(temp1[[colname]]),temp1$Hospital.Name),]
+    
+    
+    if (num == "worst"){
+      temp2[nrow(temp2) ,1]
+    } else if (num == "best"){
+      temp2[1,1]
+    } else {
+      temp2[num,1]
+    }
 
+    }
+}
+```
