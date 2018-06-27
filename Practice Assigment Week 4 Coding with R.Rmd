@@ -19,9 +19,9 @@ best <-function(state, colname){
   names(outcome)[23]<-"pneumonia"
   
                  if (colname %in% colnames(outcome) ==FALSE){
-                   message("invalid outcome")
+                   stop(message("invalid outcome"))
                  } else if (!state %in% outcome$State ==TRUE){
-                   message("invalid state")
+                   stop(message("invalid state"))
                  } else {
                    temp <- subset(outcome, State ==state, select=c(Hospital.Name, get(colname)))
                    temp1 <- suppressWarnings(subset(temp, !is.na(as.numeric(temp[,2]))))
