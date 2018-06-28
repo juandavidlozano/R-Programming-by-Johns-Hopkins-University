@@ -85,8 +85,8 @@ rankall <-function(colname, num = "best"){
     if (num == "worst"){
       for (i in 1:length(states)){
         resulttest <- temp1[temp1$State %in% states[i],]
-        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
-        result[i,] <-resulttest1[nrow(resulttest1),]
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", colname, "State"))
+        result[i,] <-suppressWarnings(resulttest1[which.max(resulttest1[[colname]]),])
         
       }
    
@@ -95,14 +95,14 @@ rankall <-function(colname, num = "best"){
     } else if (num == "best"){
       for (i in 1:length(states)){
         resulttest <- temp1[temp1$State %in% states[i],]
-        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", colname, "State"))
         result[i,] <-resulttest1[1,]
         
       }
     } else {
       for (i in 1:length(states)){
         resulttest <- temp1[temp1$State %in% states[i],]
-        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", colname, "State"))
         result[i,] <-resulttest1[num,]
         
       }
