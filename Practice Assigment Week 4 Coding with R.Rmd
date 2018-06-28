@@ -61,3 +61,55 @@ rankhospital <-function(state, colname, num = "best"){
     }
 }
 ```
+Ranking hospitals in all states
+
+```{r}
+rankall <-function(colname, num = "best"){
+  
+  outcome <-read.csv("Assigment3/outcome-of-care-measures.csv", colClasses = "character")
+  names(outcome)[11]<-"heart attack"
+  names(outcome)[17]<-"heart failure"
+  names(outcome)[23]<-"pneumonia"
+  
+  if (colname %in% colnames(outcome) ==FALSE){
+    stop(message("invalid outcome"))
+  } else {
+    
+    temp1 <- suppressWarnings(outcome[order(outcome$State, as.numeric(outcome[[colname]]), outcome$Hospital.Name),])
+    states<- unique(temp1[,7])
+    result <- data.frame(matrix(ncol = 3, nrow = 0))
+    x <- c("Hospital.Name", "heart attack", "State")
+    colnames(result) <- x
+   
+    
+    if (num == "worst"){
+      for (i in 1:length(states)){
+        resulttest <- temp1[temp1$State %in% states[i],]
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
+        result[i,] <-resulttest1[nrow(resulttest1),]
+        
+      }
+   
+      
+      
+    } else if (num == "best"){
+      for (i in 1:length(states)){
+        resulttest <- temp1[temp1$State %in% states[i],]
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
+        result[i,] <-resulttest1[1,]
+        
+      }
+    } else {
+      for (i in 1:length(states)){
+        resulttest <- temp1[temp1$State %in% states[i],]
+        resulttest1<- subset(resulttest, select=c("Hospital.Name", "heart attack", "State"))
+        result[i,] <-resulttest1[num,]
+        
+      }
+     
+    }
+    
+  }
+  result
+}
+```
